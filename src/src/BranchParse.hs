@@ -11,13 +11,16 @@ import Data.List (isPrefixOf, isSuffixOf, isInfixOf)
 {-
  The idea is to parse the first line of the git status command.
  Such a line may look like:
-  ## master
-or
+
   ## master...origin/master
 or
   ## master...origin/master [ahead 3, behind 4]
 or
   ## Initial commit on master...origin/master [gone]
+or
+  ## master...origin/master [gone]
+or
+  ## master
 -}
 
 data Distance = Ahead Int | Behind Int | AheadBehind Int Int deriving (Eq)
@@ -63,13 +66,52 @@ data BranchInfo = MkBranchInfo Branch (Maybe Remote) deriving (Eq, Show)
 
 type MBranchInfo = Maybe BranchInfo
 
--- Customized DMR
+branchRemote :: Parser MBranchInfo
+branchRemote =
+  do -- Parsec
+    branch <- trackedBranch
+    tracking <- many (noneOf " ")
+    eof
+    let remote = MkRemote (MkBranch tracking) Nothing
+    let bi = MkBranchInfo branch (Just remote)
+    return (Just bi)
+
+branchRemoteTracking :: Parser MBranchInfo
+branchRemoteTracking =
+  do -- Parsec
+    branch <- trackedBranch
+    tracking <- many (noneOf " ")
+    char ' '
+    behead <- inBrackets
+    let remote = MkRemote (MkBranch tracking) (Just behead)
+    let bi = MkBranchInfo branch (Just remote)
+    return (Just bi)
+
 newRepo :: Parser MBranchInfo
 newRepo =
   do -- Parsec
     string "Initial commit on "
-    tempBranch <- trackedBranch
-    let branch = show tempBranch ++ "(initial)"
+    branch <- trackedBranch
+    let branchInit = show branch ++ "(initial)"
+    let bi = MkBranchInfo (MkBranch branchInit) Nothing
+    return (Just bi)
+
+branchRemoteTrackingNew :: Parser MBranchInfo
+branchRemoteTrackingNew =
+  do -- Parsec
+    branch <- trackedBranch
+    tracking <- many (noneOf " ")
+    string " [gone]"
+    eof
+    let remote = MkRemote (MkBranch tracking) Nothing
+    let bi = MkBranchInfo branch (Just remote)
+    return (Just bi)
+
+branchOnly :: Parser MBranchInfo
+branchOnly =
+  do -- Parsec
+    branch <- many (noneOf " ")
+    eof
     let bi = MkBranchInfo (MkBranch branch) Nothing
     return (Just bi)
 
@@ -86,42 +128,14 @@ trackedBranch =
       b <- manyTill anyChar (try (string "..."))
       return (MkBranch b)
 
-branchRemoteTracking :: Parser MBranchInfo
-branchRemoteTracking =
-  do -- Parsec
-    branch <- trackedBranch
-    tracking <- many (noneOf " ")
-    char ' '
-    behead <- inBrackets
-    let remote = MkRemote (MkBranch tracking) (Just behead)
-    let bi = MkBranchInfo branch (Just remote)
-    return (Just bi)
-
-branchRemote :: Parser MBranchInfo
-branchRemote =
-  do -- Parsec
-    branch <- trackedBranch
-    tracking <- many (noneOf " ")
-    eof
-    let remote = MkRemote (MkBranch tracking) Nothing
-    let bi = MkBranchInfo branch (Just remote)
-    return (Just bi)
-
-branchOnly :: Parser MBranchInfo
-branchOnly =
-  do -- Parsec
-    branch <- many (noneOf " ")
-    eof
-    let bi = MkBranchInfo (MkBranch branch) Nothing
-    return (Just bi)
-
 branchParser :: Parser MBranchInfo
 branchParser =
-      try noBranch
-  <|> try newRepo
+      try branchRemote
   <|> try branchRemoteTracking
-  <|> try branchRemote
+  <|> try newRepo
+  <|> try branchRemoteTrackingNew
   <|> branchOnly
+  <|> noBranch
 
 branchParser' :: Parser MBranchInfo
 branchParser' =
