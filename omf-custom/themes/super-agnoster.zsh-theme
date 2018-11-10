@@ -19,10 +19,10 @@ LIGHTNING="\u26a1"
 GEAR="\u2699"
 
 ### git_super_status variables
-ZSH_THEME_GIT_PROMPT_PREFIX=" ${BRANCH} "
+ZSH_THEME_GIT_PROMPT_PREFIX=" "
 ZSH_THEME_GIT_PROMPT_SUFFIX=" "
 ZSH_THEME_GIT_PROMPT_SEPARATOR="|"
-ZSH_THEME_GIT_PROMPT_BRANCH=""
+ZSH_THEME_GIT_PROMPT_BRANCH="${BRANCH} "
 ZSH_THEME_GIT_PROMPT_STAGED="%{±%G%}"
 ZSH_THEME_GIT_PROMPT_CONFLICTS="%{✖%G%}"
 ZSH_THEME_GIT_PROMPT_CHANGED="%{⚒%G%}"
@@ -159,3 +159,17 @@ prompt_agnoster_setup() {
 
 ### Init
 prompt_agnoster_setup "$@"
+
+### Right prompt
+build_right_prompt() {
+  if [ ! -z "${AWS_ROLE_NAME}" -a ! -z "${AWS_SESSION_DURATION}" -a ! -z "${AWS_SESSION_START_TIME}" ]; then
+    diff=$(expr $AWS_SESSION_DURATION - $(expr $(date +%s) - $AWS_SESSION_START_TIME))
+    if [ ${diff} -gt 0 ]; then
+      echo "[${AWS_ROLE_NAME}|${diff}s] "
+    else
+      #echo -n "NULL"
+    fi
+  fi
+}
+
+RPROMPT='$FG[141]$(build_right_prompt)$(date "+%H:%M:%S")%{%f%b%k%}'

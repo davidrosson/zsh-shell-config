@@ -1,4 +1,5 @@
 
+# Setting this value removes "username@system" from the prompt
 DEFAULT_USER=davidrosson
 
 source ~/Documents/github/zsh-shell-config/zshrc.sh
@@ -9,7 +10,7 @@ export GIT_PROMPT_EXECUTABLE="haskell"
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH="/Users/davidrosson/.oh-my-zsh"
+export ZSH=~/.oh-my-zsh/
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -63,6 +64,7 @@ ZSH_THEME="super-agnoster"
 
 # Would you like to use another custom folder than $ZSH/custom?
 # ZSH_CUSTOM=/path/to/new-custom-folder
+ZSH_CUSTOM=~/Documents/github/zsh-shell-config/omf-custom/
 
 # Which plugins would you like to load?
 # Standard plugins can be found in ~/.oh-my-zsh/plugins/*
@@ -70,10 +72,24 @@ ZSH_THEME="super-agnoster"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
+  catimg
+  dircycle
+  dirhistory
+  encode64
   git
+  gitfast
+  last-working-dir
+  per-directory-history
+  sudo
+  zsh_reload
+  zsh-autosuggestions
+  zsh-history-substring-search
+  zsh-syntax-highlighting
 )
 
 source $ZSH/oh-my-zsh.sh
+
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=6'
 
 # User configuration
 

@@ -48,7 +48,7 @@ function update_current_git_vars() {
   fi
 
   if [[ "$GIT_PROMPT_EXECUTABLE" == "haskell" ]]; then
-    _GIT_STATUS=`git status --porcelain --branch &> /dev/null | $__GIT_PROMPT_DIR/src/.bin/gitstatus`
+    _GIT_STATUS=`git status --porcelain --branch &> /dev/null | $__GIT_PROMPT_DIR/git-prompt-custom/zsh-git-prompt/src/.bin/gitstatus`
   fi
 
   __CURRENT_GIT_STATUS=("${(@s: :)_GIT_STATUS}")

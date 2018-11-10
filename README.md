@@ -29,29 +29,28 @@
     6.3.2) Click the 'Change Font' button
     6.3.3) Select 'Meslo LG M Regular for Powerline'
 
-7) Install 'zsh-git-prompt'
-  7.1) Clone the 'zsh-git-prompt' repo from GitHub to ~/Documents/github/
-    7.1.1) cd ~/Documents/github/
-    7.1.2) git clone https://github.com/olivierverdier/zsh-git-prompt.git
-  7.2) Install Haskell
-    7.2.1) curl -sSL https://get.haskellstack.org/ | sh
-  7.3) Point 'zsh-git-prompt' to a custom version of 'BranchParse.hs'
-    7.3.1) mv ~/Documents/github/zsh-git-prompt/src/src/BranchParse.hs ~/Documents/github/zsh-git-prompt/src/src/BranchParse.hs.orig
-    7.3.2) ln -sf ~/Documents/github/zsh-shell-config/src/src/BranchParse.hs ~/Documents/github/zsh-git-prompt/src/src/BranchParse.hs
+7) Build and install the 'gitstatus' binary from 'zsh-git-prompt'
+  7.1) Install Haskell
+    7.1.1) curl -sSL https://get.haskellstack.org/ | sh
+  7.2) Clone the 'zsh-git-prompt' repo from GitHub
+    7.2.1) git clone https://github.com/olivierverdier/zsh-git-prompt.git ~/Documents/github/zsh-shell-config/git-prompt-custom/zsh-git-prompt/
+  7.3) Replace the default 'BranchParse.hs' with a custom version
+    7.3.1) cp ~/Documents/github/zsh-shell-config/git-prompt-custom/BranchParse.hs ~/Documents/github/zsh-shell-config/git-prompt-custom/zsh-git-prompt/src/src/BranchParse.hs
   7.4) Build the Haskell 'zsh-git-prompt' binary 'gitstatus'
-    7.4.1) cd ~/Documents/github/zsh-git-prompt/
+    7.4.1) cd ~/Documents/github/zsh-shell-config/git-prompt-custom/zsh-git-prompt/
     7.4.2) stack setup
     7.4.3) stack build && stack install
-  7.5) Create a symbolic link to the 'gitstatus' binary
-    7.5.1) ln -sf ~/Documents/github/zsh-git-prompt/src/.bin/gitstatus ~/Documents/github/zsh-shell-config/src/.bin/gitstatus
 
-8) Customize 'zsh' and 'oh-my-zsh'
-  8.1) Create a symbolic link from the local 'oh-my-zsh' installation to the 'super-agnoster' theme
-    8.1.1) ln -sf ~/Documents/github/zsh-shell-config/super-agnoster.zsh-theme ~/.oh-my-zsh/themes/super-agnoster.zsh-theme
-  8.2) Point the zsh config file to to a custom version of '.zshrc'
-    8.2.1) mv ~/.zshrc ~/.zshrc.orig
-    8.2.2) ln -sf ~/Documents/github/zsh-shell-config/.zshrc ~/.zshrc
+8) Enable command line auto-suggestions
+  8.1) Clone the 'zsh-autosuggestions' repo from GitHub
+    8.1.1) git clone https://github.com/zsh-users/zsh-autosuggestions ~/Documents/github/zsh-shell-config/omf-custom/plugins/zsh-autosuggestions/
+    8.1.2) git clone https://github.com/zsh-users/zsh-history-substring-search ~/Documents/github/zsh-shell-config/omf-custom/plugins/zsh-history-substring-search
+    8.1.3) git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/Documents/github/zsh-shell-config/omf-custom/plugins/zsh-syntax-highlighting
 
-9) Update username in '.zshrc'
-  9.1) Set 'DEFAULT_USER=<username>'
-  9.2) Set 'export ZSH="/Users/<username>/.oh-my-zsh"'
+9) Use the custom 'zsh' config
+  9.1) Point the default '~/.zshrc' config file to the source-controlled version
+    9.1.1) mv ~/.zshrc ~/.zshrc.orig
+    9.1.2) ln -sf ~/Documents/github/zsh-shell-config/.zshrc ~/.zshrc
+
+10) Update username in '.zshrc'
+  10.1) Set 'DEFAULT_USER=<username>'
