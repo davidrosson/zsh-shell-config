@@ -139,7 +139,7 @@ prompt_agnoster_main() {
 ### Preliminary prompt construction
 prompt_agnoster_precmd() {
   vcs_info
-  PROMPT='%{%f%b%k%}$(prompt_agnoster_main) '
+  PROMPT='%{%f%b%k%}$(prompt_agnoster_main)  '
 }
 
 ### Preliminary prompt setup
@@ -172,4 +172,9 @@ build_right_prompt() {
   fi
 }
 
-RPROMPT='$FG[141]$(build_right_prompt)$(date "+%H:%M:%S")%{%f%b%k%}'
+CL_ICON=""
+if [ $COMMAND_LINE_ICON ]; then
+  CL_ICON=" ${COMMAND_LINE_ICON}"
+fi
+
+RPROMPT='$FG[141]$(build_right_prompt)$(date "+%H:%M:%S")${CL_ICON}%{%f%b%k%}'

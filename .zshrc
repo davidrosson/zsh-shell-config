@@ -6,6 +6,10 @@ source ~/Documents/github/zsh-shell-config/zshrc.sh
 
 export GIT_PROMPT_EXECUTABLE="haskell"
 
+ZLE_RPROMPT_INDENT=0
+
+COMMAND_LINE_ICON="🍺"
+
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
