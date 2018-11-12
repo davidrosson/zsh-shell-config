@@ -64,7 +64,7 @@ ZSH_THEME="super-agnoster"
 
 # Would you like to use another custom folder than $ZSH/custom?
 # ZSH_CUSTOM=/path/to/new-custom-folder
-ZSH_CUSTOM=~/Documents/github/zsh-shell-config/omf-custom/
+ZSH_CUSTOM=~/Documents/github/zsh-shell-config/oh-my-zsh/
 
 # Which plugins would you like to load?
 # Standard plugins can be found in ~/.oh-my-zsh/plugins/*
