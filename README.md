@@ -54,3 +54,6 @@
     10.1.1) git clone https://github.com/zsh-users/zsh-autosuggestions ~/Documents/github/zsh-shell-config/oh-my-zsh/plugins/zsh-autosuggestions/
     10.1.2) git clone https://github.com/zsh-users/zsh-history-substring-search ~/Documents/github/zsh-shell-config/oh-my-zsh/plugins/zsh-history-substring-search/
     10.1.3) git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/Documents/github/zsh-shell-config/oh-my-zsh/plugins/zsh-syntax-highlighting/
+
+11) Reload 'zsh'
+  11.1) zsh
