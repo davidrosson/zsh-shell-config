@@ -31,29 +31,26 @@
     6.1.1) mv ~/.zshrc ~/.zshrc.orig
     6.1.2) ln -sf ~/Documents/github/zsh-shell-config/.zshrc ~/.zshrc
 
-7) Update username in '.zshrc'
-  7.1) Set 'DEFAULT_USER=<username>'
+7) Install 'oh-my-zsh'
+  7.1) sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 
-8) Install 'oh-my-zsh'
-  8.1) sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+8) Build and install the 'gitstatus' binary from 'zsh-git-prompt'
+  8.1) Install Haskell
+    8.1.1) curl -sSL https://get.haskellstack.org/ | sh
+  8.2) Clone the 'zsh-git-prompt' repo from GitHub
+    8.2.1) git clone https://github.com/olivierverdier/zsh-git-prompt.git ~/Documents/github/zsh-shell-config/git-prompt-custom/zsh-git-prompt/
+  8.3) Replace the default 'BranchParse.hs' with a custom version
+    8.3.1) cp ~/Documents/github/zsh-shell-config/git-prompt-custom/BranchParse.hs ~/Documents/github/zsh-shell-config/git-prompt-custom/zsh-git-prompt/src/src/BranchParse.hs
+  8.4) Build the Haskell 'zsh-git-prompt' binary 'gitstatus'
+    8.4.1) cd ~/Documents/github/zsh-shell-config/git-prompt-custom/zsh-git-prompt/
+    8.4.2) stack setup
+    8.4.3) stack build && stack install
 
-9) Build and install the 'gitstatus' binary from 'zsh-git-prompt'
-  9.1) Install Haskell
-    9.1.1) curl -sSL https://get.haskellstack.org/ | sh
-  9.2) Clone the 'zsh-git-prompt' repo from GitHub
-    9.2.1) git clone https://github.com/olivierverdier/zsh-git-prompt.git ~/Documents/github/zsh-shell-config/git-prompt-custom/zsh-git-prompt/
-  9.3) Replace the default 'BranchParse.hs' with a custom version
-    9.3.1) cp ~/Documents/github/zsh-shell-config/git-prompt-custom/BranchParse.hs ~/Documents/github/zsh-shell-config/git-prompt-custom/zsh-git-prompt/src/src/BranchParse.hs
-  9.4) Build the Haskell 'zsh-git-prompt' binary 'gitstatus'
-    9.4.1) cd ~/Documents/github/zsh-shell-config/git-prompt-custom/zsh-git-prompt/
-    9.4.2) stack setup
-    9.4.3) stack build && stack install
+9) Enable command line auto-suggestions
+  9.1) Clone the 'zsh-autosuggestions' repo from GitHub
+    9.1.1) git clone https://github.com/zsh-users/zsh-autosuggestions ~/Documents/github/zsh-shell-config/oh-my-zsh/plugins/zsh-autosuggestions/
+    9.1.2) git clone https://github.com/zsh-users/zsh-history-substring-search ~/Documents/github/zsh-shell-config/oh-my-zsh/plugins/zsh-history-substring-search/
+    9.1.3) git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/Documents/github/zsh-shell-config/oh-my-zsh/plugins/zsh-syntax-highlighting/
 
-10) Enable command line auto-suggestions
-  10.1) Clone the 'zsh-autosuggestions' repo from GitHub
-    10.1.1) git clone https://github.com/zsh-users/zsh-autosuggestions ~/Documents/github/zsh-shell-config/oh-my-zsh/plugins/zsh-autosuggestions/
-    10.1.2) git clone https://github.com/zsh-users/zsh-history-substring-search ~/Documents/github/zsh-shell-config/oh-my-zsh/plugins/zsh-history-substring-search/
-    10.1.3) git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/Documents/github/zsh-shell-config/oh-my-zsh/plugins/zsh-syntax-highlighting/
-
-11) Reload 'zsh'
-  11.1) zsh
+10) Reload 'zsh'
+  10.1) zsh

@@ -1,6 +1,6 @@
 
 # Setting this value removes "username@system" from the prompt
-DEFAULT_USER=davidrosson
+DEFAULT_USER=$(whoami)
 
 source ~/Documents/github/zsh-shell-config/zshrc.sh
 
