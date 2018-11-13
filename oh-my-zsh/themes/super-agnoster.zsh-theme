@@ -11,18 +11,17 @@ if [[ -z "$PRIMARY_FG" ]]; then
 fi
 
 ### Special characters
-SEGMENT_SEPARATOR="\ue0b0" # |>
-BRANCH="\ue0a0"
-# DETACHED="\u27a6" # ➦
+SEGMENT_SEPARATOR="\uE0B0"
+BRANCH="\uE0A0"
 CROSS="\u2718"
-LIGHTNING="\u26a1"
+LIGHTNING="\u26A1"
 GEAR="\u2699"
 
 ### git_super_status variables
 ZSH_THEME_GIT_PROMPT_PREFIX=" "
 ZSH_THEME_GIT_PROMPT_SUFFIX=" "
 ZSH_THEME_GIT_PROMPT_SEPARATOR="|"
-ZSH_THEME_GIT_PROMPT_BRANCH="${BRANCH} "
+ZSH_THEME_GIT_PROMPT_BRANCH=""
 ZSH_THEME_GIT_PROMPT_STAGED="%{±%G%}"
 ZSH_THEME_GIT_PROMPT_CONFLICTS="%{✖%G%}"
 ZSH_THEME_GIT_PROMPT_CHANGED="%{⚒%G%}"
@@ -101,18 +100,28 @@ prompt_dir() {
 
 ### Display extended git info from ~/Documents/github/zsh-git-prompt/zshrc.sh
 prompt_super_git() {
-  local color ref
   is_dirty() {
     test -n "$(git status --porcelain --ignore-submodules)"
   }
-  ref="$vcs_info_msg_0_"
-  if [[ -n "$ref" ]]; then
-    if is_dirty; then
-      color=227 # LightGoldenrod1
+  if [[ -n "$vcs_info_msg_0_" ]]; then
+    branch=""
+    info_prompt="$(git_super_status)"
+    ref=$(git symbolic-ref HEAD 2> /dev/null)
+    if [[ $? -gt 0 ]]; then
+      tag=$(git tag | tail -n1 2> /dev/null)
+      if [[ -n "$tag" ]]; then
+        tag="$tag|"
+      fi
+      githash=$(git show-ref --head -s --abbrev | head -n1 2> /dev/null)
+      branch=$(echo $info_prompt | sed -E "s: no-branch: ➦ $tag$githash:")
     else
-      color=113 # DarkOliveGreen3
+      branch=" $BRANCH$info_prompt"
     fi
-    prompt_segment $color $PRIMARY_FG "$(git_super_status)"
+    if is_dirty; then
+      prompt_segment 227 $PRIMARY_FG $branch # LightGoldenrod1
+    else
+      prompt_segment 113 $PRIMARY_FG $branch # DarkOliveGreen3
+    fi
   fi
 }
 

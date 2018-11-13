@@ -107,6 +107,14 @@ branchRemoteTrackingNew =
     let bi = MkBranchInfo branch (Just remote)
     return (Just bi)
 
+noBranch :: Parser MBranchInfo
+noBranch =
+  do -- Parsec
+    manyTill anyChar (try (string " (no branch)"))
+    eof
+    let bi = MkBranchInfo (MkBranch "no-branch") Nothing
+    return (Just bi)
+
 branchOnly :: Parser MBranchInfo
 branchOnly =
   do -- Parsec
@@ -114,13 +122,6 @@ branchOnly =
     eof
     let bi = MkBranchInfo (MkBranch branch) Nothing
     return (Just bi)
-
-noBranch :: Parser MBranchInfo
-noBranch =
-  do -- Parsec
-    manyTill anyChar (try (string " (no branch)"))
-    eof
-    return Nothing
 
 trackedBranch :: Parser Branch
 trackedBranch =
@@ -134,8 +135,8 @@ branchParser =
   <|> try branchRemoteTracking
   <|> try newRepo
   <|> try branchRemoteTrackingNew
-  <|> branchOnly
   <|> noBranch
+  <|> branchOnly
 
 branchParser' :: Parser MBranchInfo
 branchParser' =
